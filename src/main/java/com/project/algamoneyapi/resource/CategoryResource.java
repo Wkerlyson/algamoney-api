@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,7 +44,8 @@ public class CategoryResource {
 	}
 	
 	@GetMapping("/{id}")
-	public Optional<Category> findById(@PathVariable Long id) {
-		return repository.findById(id);
+	public ResponseEntity<Optional<Category>> findById(@PathVariable Long id) {
+		Optional<Category> category = repository.findById(id);
+		return category.isPresent() ? ResponseEntity.ok().body(category) : ResponseEntity.notFound().build();
 	}
 }
