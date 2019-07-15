@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,7 +33,7 @@ public class CategoryResource {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Category> create(@RequestBody Category category, HttpServletResponse response) {
+	public ResponseEntity<Category> create(@Valid @RequestBody Category category, HttpServletResponse response) {
 		Category categorySalved = repository.save(category);
 		
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
