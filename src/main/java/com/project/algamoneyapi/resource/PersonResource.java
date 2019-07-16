@@ -1,6 +1,5 @@
 package com.project.algamoneyapi.resource;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,6 +7,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,8 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.project.algamoneyapi.event.ResourceCreatedEvent;
 import com.project.algamoneyapi.model.Person;
 import com.project.algamoneyapi.repository.PersonRepository;
 
@@ -27,6 +28,9 @@ public class PersonResource {
 	@Autowired
 	private PersonRepository repository;
 	
+	@Autowired
+	private ApplicationEventPublisher publisher;
+		
 	@GetMapping
 	public List<Person> list(){
 		return repository.findAll();
@@ -35,11 +39,8 @@ public class PersonResource {
 	@PostMapping
 	public ResponseEntity<Person> create(@Valid @RequestBody Person person, HttpServletResponse response) {
 		Person personSaved = repository.save(person);
-		
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(personSaved.getId()).toUri();
-		response.setHeader("Location", uri.toASCIIString());
-		
-		return ResponseEntity.created(uri).body(personSaved);
+		this.publisher.publishEvent(new ResourceCreatedEvent(this, response, personSaved.getId()));
+		return ResponseEntity.status(HttpStatus.CREATED).body(personSaved);
 	}
 	
 	@GetMapping("/{id}")
