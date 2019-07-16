@@ -12,14 +12,14 @@ public class Address {
 	@Column(name = "numero")
 	private String number;
 	
-	@Column(name = "complento")
+	@Column(name = "complemento")
 	private String complement;
 	
 	@Column(name = "bairro")
 	private String district;
 	
 	@Column(name = "cep")
-	private String zipCore;
+	private String zipCode;
 	
 	@Column(name = "cidade")
 	private String city;
@@ -52,11 +52,11 @@ public class Address {
 	public void setDistrict(String district) {
 		this.district = district;
 	}
-	public String getZipCore() {
-		return zipCore;
+	public String getZipCode() {
+		return zipCode;
 	}
-	public void setZipCore(String zipCore) {
-		this.zipCore = zipCore;
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
 	}
 	public String getCity() {
 		return city;

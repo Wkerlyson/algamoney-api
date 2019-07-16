@@ -3,6 +3,7 @@ CREATE TABLE pessoa(
 	nome VARCHAR(50) NOT NULL,
 	ativo boolean,
 	logradouro VARCHAR(50),
+	bairro VARCHAR(50),
 	numero VARCHAR(10),
 	complemento VARCHAR(50),
 	cep VARCHAR(10),
@@ -10,4 +11,4 @@ CREATE TABLE pessoa(
 	estado VARCHAR(2)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO pessoa (nome, ativo, logradouro, numero, complemento, cep, cidade, estado) VALUE ('Wkerlyson', true, 'Residencial', 'SN', 'casa', '63.900-000', 'Fortaleza', 'CE');
+INSERT INTO pessoa (nome, ativo, logradouro, bairro, numero, complemento, cep, cidade, estado) VALUE ('Wkerlyson', true, 'Residencial', 'Belém', 'SN', 'casa', '63.900-000', 'Fortaleza', 'CE');
